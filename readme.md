@@ -1,0 +1,1 @@
+start mongo => ~/mongo/bin/mongod --dbpath ~/mongo-data
