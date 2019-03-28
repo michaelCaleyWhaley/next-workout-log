@@ -13,6 +13,8 @@ mongoose.connect("mongodb://localhost:27017/workout-log", {
 });
 const { Workout } = require("./models/workout-model");
 const { User } = require("./models/user.js");
+// middleware
+const { authenticate } = require("./middleware/authenticate.js");
 
 nextApp.prepare().then(() => {
   // express code here
@@ -50,10 +52,11 @@ nextApp.prepare().then(() => {
         password
       });
       const savedUser = await newUser.save();
-      await savedUser.generateAuthToken();
-      res.send(newUser);
+      const token = await savedUser.generateAuthToken();
+      if (savedUser) {
+        res.send(token);
+      }
     } catch (err) {
-      // console.log(err);
       res.status(400).send(err);
     }
   });
@@ -62,11 +65,12 @@ nextApp.prepare().then(() => {
     const { email, password } = req.body;
     try {
       const user = await User.findByCredentials(email, password);
+      const token = await user.generateAuthToken();
       if (user) {
-        res.send(user);
+        res.cookie("x-auth", token).sendStatus(200);
       }
     } catch (e) {
-      res.send(e);
+      res.status(400).send("error" + e);
     }
   });
 

@@ -2,6 +2,7 @@ import Navigation from "../components/Navigation";
 import Head from "../components/Head";
 
 export default function About() {
+
   return (
     <div>
       <Head />

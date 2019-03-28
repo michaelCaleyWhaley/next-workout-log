@@ -71,24 +71,24 @@ UserSchema.methods.generateAuthToken = function() {
 //   });
 // };
 
-// // schema statics are per model
-// UserSchema.statics.findByToken = function(token) {
-//   const User = this;
-//   const decoded;
+// schema statics are per model
+UserSchema.statics.findByToken = function(token) {
+  const User = this;
+  let decoded;
 
-//   try {
-//     decoded = jwt.verify(token, process.env.JWT_SECRET);
-//   } catch (e) {
-//     return new Promise((resolve, reject) => {
-//       reject();
-//     });
-//   }
-//   return User.findOne({
-//     _id: decoded._id,
-//     "tokens.token": token,
-//     "tokens.access": "auth"
-//   });
-// };
+  try {
+    decoded = jwt.verify(token, process.env.JWT_SECRET);
+  } catch (e) {
+    return new Promise((resolve, reject) => {
+      reject();
+    });
+  }
+  return User.findOne({
+    _id: decoded._id,
+    "tokens.token": token,
+    "tokens.access": "auth"
+  });
+};
 
 // function to find user on login
 UserSchema.statics.findByCredentials = function(email, password) {
