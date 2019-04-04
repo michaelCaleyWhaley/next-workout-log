@@ -1,15 +1,17 @@
 const express = require("express");
 const next = require("next");
 const bodyParser = require("body-parser");
+
 const PORT = process.env.PORT || 3000;
-const dev = process.env.NODE_DEV !== "production"; //true false
+const dev = process.env.NODE_DEV !== "production"; // true false
 const nextApp = next({ dev });
-const handle = nextApp.getRequestHandler(); //part of next config
+const handle = nextApp.getRequestHandler(); // part of next config
 
 // mongoose
 const mongoose = require("mongoose");
+
 mongoose.connect("mongodb://localhost:27017/workout-log", {
-  useNewUrlParser: true
+  useNewUrlParser: true,
 });
 const { Workout } = require("./models/workout-model");
 const { User } = require("./models/user.js");
@@ -28,7 +30,7 @@ nextApp.prepare().then(() => {
     const newWorkout = new Workout({
       title,
       body,
-      userID
+      userID,
     });
     newWorkout.save(err => {
       if (err) return res.send(err);
@@ -41,6 +43,7 @@ nextApp.prepare().then(() => {
     Workout.find({ userID }, (err, records) => {
       if (err) return res.send(err);
       res.send(records);
+      return records;
     });
   });
 
@@ -49,7 +52,7 @@ nextApp.prepare().then(() => {
       const { email, password } = req.body;
       const newUser = new User({
         email,
-        password
+        password,
       });
       const savedUser = await newUser.save();
       const token = await savedUser.generateAuthToken();
@@ -62,6 +65,7 @@ nextApp.prepare().then(() => {
   });
 
   app.post("/api/login", async (req, res) => {
+    console.log(req);
     const { email, password } = req.body;
     try {
       const user = await User.findByCredentials(email, password);
