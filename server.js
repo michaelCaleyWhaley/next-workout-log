@@ -1,4 +1,6 @@
 const express = require("express");
+var cookieParser = require("cookie-parser");
+
 const next = require("next");
 const bodyParser = require("body-parser");
 
@@ -21,6 +23,7 @@ const { authenticate } = require("./middleware/authenticate.js");
 nextApp.prepare().then(() => {
   // express code here
   const app = express();
+  app.use(cookieParser());
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -38,13 +41,19 @@ nextApp.prepare().then(() => {
     });
   });
 
-  app.get("/api/get-workout", (req, res) => {
-    const { userID } = req.query;
-    Workout.find({ userID }, (err, records) => {
-      if (err) return res.send(err);
-      res.send(records);
-      return records;
-    });
+  app.get("/api/get-workout", authenticate, async (req, res) => {
+    const { _id } = req.user;
+    try {
+      const workoutList = await Workout.find({ _id });
+      res.send(workoutList);
+      return workoutList;
+    } catch (e) {}
+
+    // Workout.find({ userID }, (err, records) => {
+    //   if (err) return res.send(err);
+    //   res.send(records);
+    //   return records;
+    // });
   });
 
   app.post("/api/new-user", async (req, res) => {
@@ -65,7 +74,6 @@ nextApp.prepare().then(() => {
   });
 
   app.post("/api/login", async (req, res) => {
-    console.log(req);
     const { email, password } = req.body;
     try {
       const user = await User.findByCredentials(email, password);

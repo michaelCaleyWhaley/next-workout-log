@@ -9,8 +9,8 @@ const Navigation = () => (
   <Fragment>
     <Navbar bg="light" expand="sm">
       <Navbar.Brand href="/">Next Workout</Navbar.Brand>
-      <Navbar.Toggle aria-controls="basic-navbar-nav" />
-      <Navbar.Collapse id="basic-navbar-nav">
+      {/* <Navbar.Toggle aria-controls="basic-navbar-nav" /> */}
+      {/* <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
           <Link href="/">
             <a className="nav-link">Home</a>
@@ -19,7 +19,7 @@ const Navigation = () => (
             <a className="nav-link">About</a>
           </Link>
         </Nav>
-      </Navbar.Collapse>
+      </Navbar.Collapse> */}
     </Navbar>
   </Fragment>
 );

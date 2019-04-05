@@ -4,8 +4,8 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "",
-      password: "",
+      email: "kneedeepwater@hotmail.com",
+      password: "testcaley",
     };
   }
 
@@ -32,14 +32,19 @@ class Login extends Component {
     } catch (e) {
       console.log(`error: `, error);
     }
-    
   };
 
   render() {
     const { email, password } = this.state;
     return (
       <form>
-        <input type="email" email={email} onChange={this.handleChange} />
+        <input
+          type="email"
+          email={email}
+          onChange={this.handleChange}
+          list="defaultEmails"
+        />
+        <datalist id="defaultEmails" />
         <input
           type="password"
           password={password}

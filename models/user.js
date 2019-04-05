@@ -3,6 +3,8 @@ const validator = require("validator");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
+const config = require("../config/config");
+
 const UserSchema = new mongoose.Schema({
   email: {
     required: true,
@@ -14,27 +16,27 @@ const UserSchema = new mongoose.Schema({
       validator: value => {
         return validator.isEmail(value);
       },
-      message: "{VALUE} is not a valid email"
-    }
+      message: "{VALUE} is not a valid email",
+    },
   },
   password: {
     type: String,
     required: true,
-    minlength: 6
+    minlength: 6,
   },
   userID: mongoose.Schema.Types.ObjectId,
   tokens: [
     {
       access: {
         type: String,
-        required: true
+        required: true,
       },
       token: {
         type: String,
-        required: true
-      }
-    }
-  ]
+        required: true,
+      },
+    },
+  ],
 });
 
 // UserSchema.methods.toJSON = function() {
@@ -49,9 +51,9 @@ UserSchema.methods.generateAuthToken = function() {
   const user = this;
   const access = "auth";
   const token = jwt
-    .sign({ _id: user._id.toHexString(), access }, "caley")
+    .sign({ _id: user._id.toHexString(), access }, process.env.JWT_SECRET)
     .toString();
-  user.tokens = user.tokens.concat({ access, token });
+  user.tokens = user.tokens = { access, token };
   return user.save().then(() => {
     return token;
   });
@@ -75,7 +77,6 @@ UserSchema.methods.generateAuthToken = function() {
 UserSchema.statics.findByToken = function(token) {
   const User = this;
   let decoded;
-
   try {
     decoded = jwt.verify(token, process.env.JWT_SECRET);
   } catch (e) {
@@ -86,7 +87,7 @@ UserSchema.statics.findByToken = function(token) {
   return User.findOne({
     _id: decoded._id,
     "tokens.token": token,
-    "tokens.access": "auth"
+    "tokens.access": "auth",
   });
 };
 
