@@ -3,7 +3,9 @@ import React, { Component } from "react";
 class List extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      authenticated: false,
+    };
   }
 
   componentDidMount() {
@@ -12,23 +14,25 @@ class List extends Component {
 
   requestWorkoutList = async () => {
     try {
-      const workoutList = await fetch("/api/get-workout", {
-        method: "GET",
+      const readableStream = await fetch("/api/get-workout", {
+        method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "same-origin",
       });
+
+      const workoutList = await readableStream.json();
+
       console.log(`workoutList: `, workoutList);
-    } catch (e) {
-      console.log(`error: `, e);
-    }
+
+      this.setState({
+        authenticated: true,
+      });
+    } catch (e) {}
   };
 
   render() {
-    return (
-      <ul>
-        <li>workout list</li>
-      </ul>
-    );
+    const { authenticated } = this.state;
+    return <ul>{authenticated && <li>workout list</li>}</ul>;
   }
 }
 

@@ -41,7 +41,7 @@ nextApp.prepare().then(() => {
     });
   });
 
-  app.get("/api/get-workout", authenticate, async (req, res) => {
+  app.post("/api/get-workout", authenticate, async (req, res) => {
     const { _id } = req.user;
     try {
       const workoutList = await Workout.find({ _id });
