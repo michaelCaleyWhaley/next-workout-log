@@ -46,13 +46,13 @@ class Index extends Component {
       <div>
         <Head />
         <Navigation />
-        {/* <SaveWorkoutForm /> */}
         {!authenticated && (
           <Login
             updateAuthenticationStatus={this.updateAuthenticationStatus}
             updateWorkoutData={this.updateWorkoutData}
           />
         )}
+        {authenticated && <SaveWorkoutForm />}
         {workoutData && <List workoutData={workoutData} />}
       </div>
     );
