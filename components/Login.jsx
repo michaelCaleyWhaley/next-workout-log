@@ -17,7 +17,7 @@ class Login extends Component {
 
   submitLogin = async e => {
     e.preventDefault();
-
+    const { updateAuthenticationStatus, updateWorkoutData } = this.props;
     try {
       const login = await fetch("/api/login", {
         method: "POST",
@@ -28,9 +28,10 @@ class Login extends Component {
           password: this.state.password,
         }),
       });
-      console.log(`login: `, login);
+      updateAuthenticationStatus(true);
+      updateWorkoutData();
     } catch (e) {
-      console.log(`error: `, error);
+      updateAuthenticationStatus(false);
     }
   };
 
