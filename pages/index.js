@@ -3,22 +3,40 @@ import Navigation from "../components/Navigation";
 import Head from "../components/Head";
 
 import Login from "../components/Login";
+import SaveWorkoutForm from "../components/SaveWorkoutForm";
 import List from "../components/List";
 
 class Index extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      authenticated: false,
+    };
   }
 
+  updateAuthentication = status => {
+    this.setState(
+      () => {
+        return { authenticated: status };
+      },
+      () => {
+        console.log(`this.state: `, this.state);
+      },
+    );
+  };
+
+  componentDidMount() {}
+
   render() {
+    const { authenticated } = this.state;
     return (
       <div>
         <Head />
         <Navigation />
-        <p>Hello Next.js</p>
-
-        <Login />
-        <List userID={"5c99580db96ec70a86e21c1e"} />
+        <SaveWorkoutForm />
+        {!authenticated && <Login />}
+        <List updateAuthentication={this.updateAuthentication} />
       </div>
     );
   }

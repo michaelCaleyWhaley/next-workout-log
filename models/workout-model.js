@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
 
 mongoose.connect("mongodb://localhost:27017/workout-log", {
-  useNewUrlParser: true
+  useNewUrlParser: true,
 });
 const workoutSchema = new mongoose.Schema({
   title: { type: String, required: true },
   body: { type: String, required: true },
   date: { type: Date, default: Date.now },
-  userID: { type: Number, required: true }
+  email: { type: String, required: true },
 });
 const Workout = mongoose.model("Workout", workoutSchema);
 

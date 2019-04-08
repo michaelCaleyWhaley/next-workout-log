@@ -28,12 +28,12 @@ nextApp.prepare().then(() => {
   app.use(bodyParser.urlencoded({ extended: true }));
 
   // WORKOUT ROUTES
-  app.post("/api/save-workout", (req, res) => {
-    const { title, body, userID } = req.body;
+  app.post("/api/save-workout", authenticate, (req, res) => {
+    const { title, body, email } = req.body;
     const newWorkout = new Workout({
       title,
       body,
-      userID,
+      email,
     });
     newWorkout.save(err => {
       if (err) return res.send(err);
@@ -41,19 +41,13 @@ nextApp.prepare().then(() => {
     });
   });
 
-  app.post("/api/get-workout", authenticate, async (req, res) => {
-    const { _id } = req.user;
+  app.get("/api/get-workout", authenticate, async (req, res) => {
+    const { email } = req.user;
     try {
-      const workoutList = await Workout.find({ _id });
+      const workoutList = await Workout.find({ email });
       res.send(workoutList);
       return workoutList;
     } catch (e) {}
-
-    // Workout.find({ userID }, (err, records) => {
-    //   if (err) return res.send(err);
-    //   res.send(records);
-    //   return records;
-    // });
   });
 
   app.post("/api/new-user", async (req, res) => {
