@@ -52,7 +52,9 @@ class Index extends Component {
             updateWorkoutData={this.updateWorkoutData}
           />
         )}
-        {authenticated && <SaveWorkoutForm />}
+        {authenticated && (
+          <SaveWorkoutForm updateWorkoutData={this.updateWorkoutData} />
+        )}
         {workoutData && <List workoutData={workoutData} />}
       </div>
     );

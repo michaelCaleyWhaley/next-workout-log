@@ -19,15 +19,26 @@ class SaveWorkoutForm extends Component {
     });
   };
 
-  handleFormSubmit = e => {
+  handleFormSubmit = async e => {
     e.preventDefault();
+    const newWorkout = await submitWorkoutData(this.state);
+    if (newWorkout._id) {
+      this.props.updateWorkoutData();
+      this.clearForm();
+    }
+  };
 
-    console.log(`e.target: `, e.target);
+  clearForm = e => {
+    this.setState(() => ({
+      title: "",
+      body: "",
+    }));
+    document.getElementById("save-work-form").reset();
   };
 
   render() {
     return (
-      <form>
+      <form id="save-work-form">
         <input type="text" name="title" onChange={this.handleChange} />
         <input type="text" name="body" onChange={this.handleChange} />
         <input type="submit" value="submit" onClick={this.handleFormSubmit} />

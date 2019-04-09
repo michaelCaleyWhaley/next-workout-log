@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "../scss/list.scss";
 
 class List extends Component {
   constructor(props) {
@@ -9,19 +10,20 @@ class List extends Component {
 
   render() {
     const { workoutData } = this.props;
-    console.log(`workoutData: `, workoutData);
 
     return (
-      <ul>
-        {workoutData.map((workout, index) => {
-          return (
-            <li key={`${workout}${index}`}>
-              <h1>{new Date(workout.date).toLocaleDateString("en-GB")}</h1>
-              <h2>{workout.title}</h2>
-              <p>{workout.body}</p>
-            </li>
-          );
-        })}
+      <ul id="workout-list">
+        {workoutData
+          .map((workout, index) => {
+            return (
+              <li key={`${workout}${index}`}>
+                <h1>{new Date(workout.date).toLocaleDateString("en-GB")}</h1>
+                <h2>{workout.title}</h2>
+                <p>{workout.body}</p>
+              </li>
+            );
+          })
+          .reverse()}
       </ul>
     );
   }

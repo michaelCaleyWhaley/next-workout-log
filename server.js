@@ -29,7 +29,8 @@ nextApp.prepare().then(() => {
 
   // WORKOUT ROUTES
   app.post("/api/save-workout", authenticate, (req, res) => {
-    const { title, body, email } = req.body;
+    const { email } = req.user;
+    const { title, body } = req.body;
     const newWorkout = new Workout({
       title,
       body,
