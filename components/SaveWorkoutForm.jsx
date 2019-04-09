@@ -38,9 +38,19 @@ class SaveWorkoutForm extends Component {
 
   render() {
     return (
-      <form id="save-work-form">
-        <input type="text" name="title" onChange={this.handleChange} />
-        <input type="text" name="body" onChange={this.handleChange} />
+      <form id="save-work-form" autoComplete="off">
+        <input
+          type="text"
+          name="title"
+          onChange={this.handleChange}
+          autoComplete="off"
+        />
+        <input
+          type="text"
+          name="body"
+          onChange={this.handleChange}
+          autoComplete="off"
+        />
         <input type="submit" value="submit" onClick={this.handleFormSubmit} />
       </form>
     );

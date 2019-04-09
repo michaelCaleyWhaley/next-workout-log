@@ -16,7 +16,7 @@ class List extends Component {
         {workoutData
           .map((workout, index) => {
             return (
-              <li key={`${workout}${index}`}>
+              <li className="workout-list__item" key={`${workout}${index}`}>
                 <h1>{new Date(workout.date).toLocaleDateString("en-GB")}</h1>
                 <h2>{workout.title}</h2>
                 <p>{workout.body}</p>
