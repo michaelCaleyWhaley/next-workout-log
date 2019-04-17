@@ -1,5 +1,4 @@
 const requestWorkoutList = async (startingPos = 0, limit = 100) => {
-  // console.log(startingPos, limit);
   try {
     const readableStream = await fetch(
       `/api/get-workout?startingPos=${startingPos}&limit=${limit}`,
