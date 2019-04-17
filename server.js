@@ -44,8 +44,12 @@ nextApp.prepare().then(() => {
 
   app.get("/api/get-workout", authenticate, async (req, res) => {
     const { email } = req.user;
+    const { startingPos, limit } = req.query;
     try {
-      const workoutList = await Workout.find({ email });
+      const workoutList = await Workout.find({ email })
+        .sort({ date: -1 })
+        .skip(parseInt(startingPos))
+        .limit(parseInt(limit));
       res.send(workoutList);
       return workoutList;
     } catch (e) {}

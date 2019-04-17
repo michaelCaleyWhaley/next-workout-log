@@ -3,7 +3,7 @@ import Navigation from "../components/Navigation";
 import Head from "../components/Head";
 
 // services
-import getWorkoutData from "../services/getWorkoutData";
+import requestWorkoutList from "../services/requestWorkoutList";
 
 // components
 import Login from "../components/Login";
@@ -29,7 +29,7 @@ class Index extends Component {
   };
 
   updateWorkoutData = async () => {
-    const workoutData = await getWorkoutData();
+    const workoutData = await requestWorkoutList();
 
     if (workoutData.error) {
       this.updateAuthenticationStatus(false);
